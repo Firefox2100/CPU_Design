@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 2019/11/15 09:03:06
+// Create Date: 05/13/2020 08:38:32 AM
 // Design Name: 
-// Module Name: full_adder
+// Module Name: Testbench_CLA_32b
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,10 +20,26 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module full_adder(a,b,c,s,p,g);
-    input a,b,c;
-    output s,p,g;
-    assign g=a&b;
-    assign p=a|b;
-    assign s=(a^b)^c;
+module Testbench_CLA_32b();
+    
+    reg [31:0] A,B;
+    reg cin;
+    wire [31:0] S;
+    wire cout;
+    
+    CLA_32b CLA_32b(
+        .X(A),
+        .Y(B),
+        .S(S),
+        .Cin(cin),
+        .Cout(cout)
+    );
+    
+    initial
+    begin
+    A=20;
+    B=48;
+    cin=0;
+    end
+    
 endmodule

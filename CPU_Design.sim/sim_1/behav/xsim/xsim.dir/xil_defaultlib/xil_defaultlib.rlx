@@ -1,0 +1,19 @@
+0.6
+2019.1
+May 24 2019
+15:06:07
+D:/git_working/CPU_Design/CPU_Design.sim/sim_1/behav/xsim/glbl.v,1558713910,verilog,,,,glbl,,,,,,,,
+D:/git_working/CPU_Design/CPU_Design.srcs/sim_1/new/Testbench_ALU.v,1589334294,verilog,,,,Testbench_ALU,,,,,,,,
+D:/git_working/CPU_Design/CPU_Design.srcs/sim_1/new/Testbench_CLA_32b.v,1589331109,verilog,,,,Testbench_CLA_32b,,,,,,,,
+D:/git_working/CPU_Design/CPU_Design.srcs/sim_1/new/Testbench_EXT.v,1589333557,verilog,,,,Testbench_EXT,,,,,,,,
+D:/git_working/CPU_Design/CPU_Design.srcs/sim_1/new/Testbench_NPC.v,1589248607,verilog,,,,Testbench_NPC,,,,,,,,
+D:/git_working/CPU_Design/CPU_Design.srcs/sim_1/new/Testbench_PC.v,1589243913,verilog,,,,Testbench_PC,,,,,,,,
+D:/git_working/CPU_Design/CPU_Design.srcs/sim_1/new/Testbench_Reg_File.v,1589188362,verilog,,,,Testbench_Reg_File,,,,,,,,
+D:/git_working/CPU_Design/CPU_Design.srcs/sources_1/new/ADD_4_PC.v,1589332280,verilog,,D:/git_working/CPU_Design/CPU_Design.srcs/sources_1/new/CLA_32b.v,,ADD_4_PC,,,,,,,,
+D:/git_working/CPU_Design/CPU_Design.srcs/sources_1/new/ALU.v,1589332142,verilog,,D:/git_working/CPU_Design/CPU_Design.srcs/sources_1/new/CLA_32b.v,,ALU,,,,,,,,
+D:/git_working/CPU_Design/CPU_Design.srcs/sources_1/new/CLA.v,1588226953,verilog,,D:/git_working/CPU_Design/CPU_Design.srcs/sources_1/new/CLA_32b.v,,CLA,,,,,,,,
+D:/git_working/CPU_Design/CPU_Design.srcs/sources_1/new/CLA_32b.v,1589332032,verilog,,D:/git_working/CPU_Design/CPU_Design.srcs/sim_1/new/Testbench_ALU.v,,CLA_32b;CLA_4,,,,,,,,
+D:/git_working/CPU_Design/CPU_Design.srcs/sources_1/new/EXT.v,1589250162,verilog,,D:/git_working/CPU_Design/CPU_Design.srcs/sim_1/new/Testbench_EXT.v,,EXT,,,,,,,,
+D:/git_working/CPU_Design/CPU_Design.srcs/sources_1/new/NPC.v,1589332070,verilog,,D:/git_working/CPU_Design/CPU_Design.srcs/sim_1/new/Testbench_NPC.v,,NPC,,,,,,,,
+D:/git_working/CPU_Design/CPU_Design.srcs/sources_1/new/PC.v,1589189836,verilog,,D:/git_working/CPU_Design/CPU_Design.srcs/sim_1/new/Testbench_PC.v,,PC,,,,,,,,
+D:/git_working/CPU_Design/CPU_Design.srcs/sources_1/new/Reg_File.v,1588225610,verilog,,D:/git_working/CPU_Design/CPU_Design.srcs/sim_1/new/Testbench_Reg_File.v,,Reg_File,,,,,,,,

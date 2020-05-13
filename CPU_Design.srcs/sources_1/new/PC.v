@@ -22,10 +22,13 @@
 
 module PC(NPC, clk, PCWr, Clrn, PC, stall );
     
-    input [31:0]NPC;
-    input clk,PCWr,Clrn,stall;
+    input       [31:0]  NPC;
+    input               clk;
+    input               PCWr;
+    input               Clrn;
+    input               stall;
     
-    output reg [31:0]PC;
+    output reg  [31:0]  PC;
     
     wire SAFE;
     

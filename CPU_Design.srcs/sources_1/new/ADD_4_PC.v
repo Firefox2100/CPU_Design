@@ -27,11 +27,11 @@ module ADD_4_PC(in, out );
     output  [31:0]  out;
     
     CLA_32b CLA(
-        .A(in),
-        .B({32'b00000000000000000000000000000100}),
+        .X(in),
+        .Y({32'b00000000000000000000000000000100}),
         .S(out),
-        .cin(),
-        .cout()
+        .Cin(1'b0),
+        .Cout()
     );
     
 endmodule

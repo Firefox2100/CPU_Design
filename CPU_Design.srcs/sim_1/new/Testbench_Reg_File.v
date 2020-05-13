@@ -42,4 +42,26 @@ module Testbench_Reg_File();
         .RD2(RD2)
     );
     
+    initial
+    begin
+        clk=0;
+        forever #10 clk=~clk;
+    end
+    
+    initial
+    begin
+        A1=5;
+        A2=7;
+        A3=5;
+        clr=0;
+        RFWr=0;
+        WD=1246;
+        #5 RFWr=1;
+        #10 RFWr=0;
+        #0 A3=8;
+        #10 RFWr=1;
+        #10 RFWr=0;
+        #0 A2=8;
+    end
+    
 endmodule

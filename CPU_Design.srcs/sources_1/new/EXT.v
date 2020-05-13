@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module EXT(Imm16, EXTOp, Imm32);
+module EXT(Imm16, EXTOp, Imm32 );
     
     input  [15:0] Imm16;   
     input  [1:0]  EXTOp; // EXT_ZERO(2'b00), EXT_SIGNED(2'b01), EXT_HIGHPOS(2'b10)  
@@ -38,7 +38,7 @@ module EXT(Imm16, EXTOp, Imm32);
     
     function [31:0]ext;
         input [31:0]E0, E1, E2;
-        input Se;
+        input [1:0]Se;
         case(Se)
             2'b00:ext=E0;
             2'b01:ext=E1;
