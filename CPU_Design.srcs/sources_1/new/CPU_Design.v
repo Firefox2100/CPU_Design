@@ -98,13 +98,6 @@ module CPU_Design(CLK, EN, CLRN );
         .Imm32(Extended)
     );
     
-    NPC NPC_M(
-        .PC(),
-        .NPCOp(),
-        .IMM(),
-        .NPC()
-    );
-    
     CONTROL CONTROL(
         .E_Op(),
         .Op(ID_Inst[31:26]),
