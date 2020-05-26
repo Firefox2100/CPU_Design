@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 05/07/2020 10:50:55 AM
+// Create Date: 05/26/2020 07:29:26 PM
 // Design Name: 
-// Module Name: IM
+// Module Name: DM
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,23 +20,20 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module IM(Addr, Inst, Clk );
+module DM(Addr, Din, Clk, We, Dout );
     
-    input       [31:0]  Addr;
-    input               Clk;
+    input [31:0]Addr,Din;
+    input Clk,We;
     
-    output  reg [31:0]  Inst;
+    output [31:0]Dout;
     
-    reg         [31:0]  ROM [1023:0];
+    reg [31:0] RAM [1023:0];
     
-    initial
+    always @ (posedge Clk)
     begin
-        
-    end
-    
-    always @(posedge Clk)
-    begin
-        Inst<=ROM[Addr[11:2]];
-    end
+        if (We) RAM[Addr[11:2]] <= Din;
+	end
+	
+    assign Dout = RAM[Addr[11:2]];
     
 endmodule

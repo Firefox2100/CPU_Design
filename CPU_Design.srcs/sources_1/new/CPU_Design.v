@@ -41,14 +41,30 @@ module CPU_Design(CLK, EN, CLRN );
     wire    [31:0]  ID_RD1;     //Data read from register file on address 1
     wire    [31:0]  ID_RD2;     //Data read from register file on address 2
     wire    [31:0]  Extended;   //Address that has been extended to 32 bit
+    wire    [31:0]  EX_Extended;//Address that has been extended to 32 bit, cached by IDEX
     wire    [31:0]  Branch_Addr;//Relative address of the branch jump
     wire    [31:0]  BA;         //Address from b instruction
+    wire    [31:0]  EX_BA;      //Address from b instruction cached by IDEX
+    wire    [31:0]  J_addr;     //Address combined for j instruction
+    wire    [31:0]  EX_J_addr;  //Address combined for j instruction cached by IDEX
+    wire    [31:0]  ALU_Y;      //Data goes into Y of ALU
+    wire    [5:0]   E_Op;       //OP of EX stage
+    wire    [5:0]   E_Func;     //func of EX stage
     wire    [4:0]   RT_RD_Addr; //Target address taken from RT/RD
+    wire    [4:0]   E_Rd;       //Target address taken from RT/RD, cached by IDEX
+    wire    [1:0]   Aluc;       //Signal to control ALU to work in different modes
+    wire    [1:0]   EX_Aluc;    //Signal to control ALU to work in different modes, cached by IDEX
     wire    [1:0]   Se;         //Signal to control extending
+    wire    [1:0]   FwdA;       //Signal to control forward
+    wire    [1:0]   FwdB;       //Signal to control forward
+    wire    [1:0]   Pcsrc;      //Signal to control the source of new PC address.
     wire            stall;      //Signal to shut down PC for a clock cycle
     wire            condep;     //Signal to clear some cache to insert bubble
-    
-    
+    wire            Regrt;      //Signal representing whether it is a I instruction or R
+    wire            Wreg;       //Signal to indicate whether it is required to write to register files
+    wire            Wmem;
+    wire            Aluqb;      //Signal to control the input on Y of ALU, depending on whether push forward
+    wire            EX_Aluqb;   //Signal to control the input on Y of ALU, depending on whether push forward, cached by IDEX
     
     ADD_4_PC ADD_4_PC(
         .in(IF_Addr),
@@ -67,11 +83,17 @@ module CPU_Design(CLK, EN, CLRN );
         .RD2(ID_RD2)
     );
     
+    Comb J_Comb(
+        .X(ID_Inst[25:0]),
+        .PCADD4(ID_ADD4),
+        .J_addr(J_addr)
+    );
+    
     MUX_32b_3 Addr_MUX(
         .A0(IF_ADD4),
-        .A1(BA),
-        .A2(),
-        .S(),
+        .A1(EX_BA),
+        .A2(EX_J_addr),
+        .S(Pcsrc),
         .Y(NPC)
     );
     
@@ -86,8 +108,8 @@ module CPU_Design(CLK, EN, CLRN );
     
     ALU ALU(
         .A(),
-        .B(),
-        .ALUOp(),
+        .B(ALU_Y),
+        .ALUOp(EX_Aluc),
         .C(),
         .Zero()
     );
@@ -99,29 +121,29 @@ module CPU_Design(CLK, EN, CLRN );
     );
     
     CONTROL CONTROL(
-        .E_Op(),
+        .E_Op(E_Op),
         .Op(ID_Inst[31:26]),
-        .E_Func(),
+        .E_Func(E_Func),
         .Func(ID_Inst[5:0]),
         .Zero(),
-        .Regrt(),
+        .Regrt(Regrt),
         .Se(Se),
-        .Wreg(),
-        .Aluqb(),
-        .Aluc(),
-        .Wmem(),
-        .Pcsrc(),
+        .Wreg(Wreg),
+        .Aluqb(Aluqb),
+        .Aluc(Aluc),
+        .Wmem(Wmem),
+        .Pcsrc(Pcsrc),
         .Reg2reg(),
         .shift(),
         .j(),
         .Rs(ID_Inst[25:21]),
         .Rt(ID_Inst[20:16]),
-        .E_Rd(),
+        .E_Rd(E_Rd),
         .M_Rd(),
         .E_Wreg(),
         .M_Wreg(),
-        .FwdA(),
-        .FwdB(),
+        .FwdA(FwdA),
+        .FwdB(FwdB),
         .E_Reg2reg(),
         .stall(stall),
         .condep(condep)
@@ -141,7 +163,8 @@ module CPU_Design(CLK, EN, CLRN );
     
     IM IM(
         .Addr(IF_Addr),
-        .Inst(IF_Inst)
+        .Inst(IF_Inst),
+        .Clk(CLK)
     );
     
     CLA_32b Branch_Calc(
@@ -161,7 +184,7 @@ module CPU_Design(CLK, EN, CLRN );
         .A0(ID_Inst[15:11]),
         .A1(ID_Inst[20:16]),
         .Y(RT_RD_Addr),
-        .S()
+        .S(Regrt)
     );
     
     IDEX IDEX(
@@ -172,8 +195,49 @@ module CPU_Design(CLK, EN, CLRN );
         .stall(stall),
         .ID_RD1(ID_RD1),
         .ID_RD2(ID_RD2),
+        .ID_Extended(Extended),
+        .ID_BA(BA),
+        .ID_J_addr(J_addr),
+        .ID_ADD4(ID_ADD4),
+        .ID_OP(ID_Inst[31:26]),
+        .ID_func(ID_Inst[5:0]),
+        .ID_RT_RD_Addr(RT_RD_Addr),
+        .ID_Aluc(Aluc),
+        .ID_FwdA(FwdA),
+        .ID_FwdB(FwdB),
+        .ID_Aluqb(Aluqb),
+        .ID_Wreg(Wreg),
+        .ID_Wmem(Wmem),
         .EX_RD1(),
-        .EX_RD2()
+        .EX_RD2(),
+        .EX_Extended(EX_Extended),
+        .EX_BA(EX_BA),
+        .EX_J_addr(EX_J_addr),
+        .EX_ADD4(),
+        .EX_OP(E_Op),
+        .EX_func(E_Func),
+        .EX_RT_RD_Addr(E_Rd),
+        .EX_Aluc(EX_Aluc),
+        .EX_FwdA(),
+        .EX_FwdB(),
+        .EX_Aluqb(EX_Aluqb),
+        .EX_Wreg(),
+        .EX_Wmem()
+    );
+    
+    MUX_32b_2 ALU_Y_MUX(
+        .A0(EX_Extended),
+        .A1(),
+        .S(EX_Aluqb),
+        .Y(ALU_Y)
+    );
+    
+    DM DM(
+        .Addr(),
+        .Din(),
+        .Clk(),
+        .We(),
+        .Dout()
     );
     
 endmodule

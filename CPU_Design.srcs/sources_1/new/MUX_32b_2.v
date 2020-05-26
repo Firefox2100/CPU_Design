@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 05/07/2020 10:50:55 AM
+// Create Date: 05/26/2020 10:39:56 PM
 // Design Name: 
-// Module Name: IM
+// Module Name: MUX_32b_2
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,23 +20,22 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module IM(Addr, Inst, Clk );
+module MUX_32b_2(A0, A1, S, Y);
     
-    input       [31:0]  Addr;
-    input               Clk;
+    input   [31:0]  A0, A1;
+    input           S;
     
-    output  reg [31:0]  Inst;
+    output  [31:0]  Y;
     
-    reg         [31:0]  ROM [1023:0];
+    function [31:0] select;
+        input [31:0] A0, A1;
+        input        S;
+            case(S)
+                1'b0: select = A0;
+                1'b1: select = A1;
+            endcase
+    endfunction
     
-    initial
-    begin
-        
-    end
-    
-    always @(posedge Clk)
-    begin
-        Inst<=ROM[Addr[11:2]];
-    end
+    assign Y = select (A0, A1, S);
     
 endmodule

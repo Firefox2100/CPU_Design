@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 05/07/2020 10:50:55 AM
+// Create Date: 05/26/2020 11:05:36 PM
 // Design Name: 
-// Module Name: IM
+// Module Name: EXMEM
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,23 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module IM(Addr, Inst, Clk );
-    
-    input       [31:0]  Addr;
-    input               Clk;
-    
-    output  reg [31:0]  Inst;
-    
-    reg         [31:0]  ROM [1023:0];
-    
-    initial
-    begin
-        
-    end
-    
-    always @(posedge Clk)
-    begin
-        Inst<=ROM[Addr[11:2]];
-    end
-    
+module EXMEM(
+
+    );
 endmodule

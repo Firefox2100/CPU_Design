@@ -39,6 +39,12 @@ module IFID(IF_ADD4, IF_Inst, En, Clk, Clrn, ID_ADD4, ID_Inst, stall, condep );
     assign Safe=En&~stall;
     assign CL=Clrn&~condep;
     
+    initial
+    begin
+        ID_ADD4=0;
+        ID_Inst=0;
+    end
+    
     always @(posedge Clk)
     begin
         if(CL)

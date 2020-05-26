@@ -60,8 +60,8 @@ module CONTROL(E_Op,Op,E_Func,Func,Zero,Regrt,Se,Wreg,Aluqb,Aluc,Wmem,Pcsrc,Reg2
     assign  Aluqb       = i_add|i_sub|i_beq|i_j;
     assign  Se[0]       = i_lw |i_sw |i_beq;
     assign  Se[1]       = 0;
-    assign  Aluc[1]     = i_sub;
-    assign  Aluc[0]     = i_add|i_ori;
+    assign  Aluc[1]     = i_ori;
+    assign  Aluc[0]     = i_sub;
     assign  Wmem        = i_sw;
     assign  Pcsrc[0]    = E_beq&Zero;
     assign  Pcsrc[1]    = E_j;
