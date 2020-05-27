@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module CONTROL(E_Op,Op,E_Func,Func,Zero,Regrt,Se,Wreg,Aluqb,Aluc,Wmem,Pcsrc,Reg2reg,shift,j,Rs,Rt,E_Rd,M_Rd,E_Wreg,M_Wreg,FwdA,FwdB,E_Reg2reg,stall,condep);
+module CONTROL(E_Op,Op,E_Func,Func,Zero,Regrt,Se,Wreg,Aluqb,Aluc,Wmem,Pcsrc,Reg2reg,Rs,Rt,E_Rd,M_Rd,E_Wreg,M_Wreg,FwdA,FwdB,E_Reg2reg,stall,condep);
     
     input       [5:0]   Op;                                         //op from the id stage
     input       [5:0]   Func;                                       //func from the id stage
@@ -39,8 +39,6 @@ module CONTROL(E_Op,Op,E_Func,Func,Zero,Regrt,Se,Wreg,Aluqb,Aluc,Wmem,Pcsrc,Reg2
     output              Wreg,Aluqb,Wmem,Reg2reg,stall,condep;
     output      [1:0]   Pcsrc;
     output      [1:0]   Aluc;
-    output              shift;
-    output              j;
     output  reg [1:0]   FwdA,FwdB;
     
     wire i_add  =   (Op == 6'b000000 & Func == 6'b100000)?1:0;      //add
@@ -65,8 +63,6 @@ module CONTROL(E_Op,Op,E_Func,Func,Zero,Regrt,Se,Wreg,Aluqb,Aluc,Wmem,Pcsrc,Reg2
     assign  Wmem        = i_sw;
     assign  Pcsrc[0]    = E_beq&Zero;
     assign  Pcsrc[1]    = E_j;
-    //assign shift = i_sll | i_srl | i_sra;
-    //assign j = i_jal | i_jr;
     always@(E_Rd,M_Rd,E_Wreg,M_Wreg,Rs,Rt,i_add,i_sub,i_sw,i_beq)
     begin
         FwdA=2'b00;
