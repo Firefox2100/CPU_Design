@@ -47,7 +47,7 @@ module IFID(IF_ADD4, IF_Inst, En, Clk, Clrn, ID_ADD4, ID_Inst, stall, condep );
     
     always @(posedge Clk)
     begin
-        if(CL)
+        if(!CL)
             ID_ADD4<=0;
         else if(Safe)
             ID_ADD4<=IF_ADD4;
@@ -55,7 +55,7 @@ module IFID(IF_ADD4, IF_Inst, En, Clk, Clrn, ID_ADD4, ID_Inst, stall, condep );
     
     always @(posedge Clk)
     begin
-        if(CL)
+        if(!CL)
             ID_Inst<=0;
         else if(Safe)
             ID_Inst<=IF_Inst;

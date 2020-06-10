@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 04/23/2020 09:04:54 AM
+// Create Date: 06/10/2020 09:05:59 AM
 // Design Name: 
-// Module Name: CPU_Design
+// Module Name: Test
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -16,21 +16,13 @@
 // Revision:
 // Revision 0.01 - File Created
 // Additional Comments:
-// Implemented instructions:
-// name         op              shamt           func
-// add          000000          000000          100000
-// sub          000000          000000          100010
-// ori          001101
-// lw           100011
-// sw           101011
-// beq          000100
-// j            000010
+// 
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module CPU_Design(CLK, EN, CLRN, ALU_Y, Fwd_X, ALU_R);
+module Test();
     
-    input CLK,EN,CLRN;
+    reg CLK,EN,CLRN;
     
     wire    [31:0]  NPC;        //Address to update PC
     wire    [31:0]  IF_Addr;    //PC current address
@@ -50,10 +42,10 @@ module CPU_Design(CLK, EN, CLRN, ALU_Y, Fwd_X, ALU_R);
     wire    [31:0]  EX_BA;      //Address from b instruction cached by IDEX
     wire    [31:0]  J_addr;     //Address combined for j instruction
     wire    [31:0]  EX_J_addr;  //Address combined for j instruction cached by IDEX
-    output wire    [31:0]  ALU_Y;      //Data goes into Y of ALU
-    output wire    [31:0]  Fwd_X;      //Data that is forwarded into X of ALU
+    wire    [31:0]  ALU_Y;      //Data goes into Y of ALU
+    wire    [31:0]  Fwd_X;      //Data that is forwarded into X of ALU
     wire    [31:0]  Fwd_Y;      //Data that is forwarded into Y of ALU
-    output wire    [31:0]  ALU_R;      //The result of ALU
+    wire    [31:0]  ALU_R;      //The result of ALU
     wire    [31:0]  MEM_ALU_R;  //The result of ALU, cached by EXMEM
     wire    [31:0]  WB_ALU_R;   //The result of ALU, cached by MEMWB
     wire    [31:0]  DMO;        //Data memory output
@@ -93,6 +85,16 @@ module CPU_Design(CLK, EN, CLRN, ALU_Y, Fwd_X, ALU_R);
     wire            Zero;       //Signal from ALU indicating whether the two operate numbers are the same
     
     assign NCLK=!CLK;
+    
+    initial begin 
+        CLK=0;
+        CLRN=0;
+        EN=1;
+        #10
+        CLRN<=1;
+    end
+    
+    always #5 CLK=~CLK;
     
     ADD_4_PC ADD_4_PC(
         .in(IF_Addr),
@@ -322,5 +324,4 @@ module CPU_Design(CLK, EN, CLRN, ALU_Y, Fwd_X, ALU_R);
         .S(W_Reg2reg),
         .Y(WB_Data)
     );
-    
 endmodule

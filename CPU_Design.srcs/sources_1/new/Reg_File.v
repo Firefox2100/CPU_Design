@@ -44,7 +44,7 @@ module Reg_File(A1, A2, A3, WD, clk, RFWr, clr, RD1, RD2 );
     
     always @ (posedge clk or posedge clr)
     begin
-        if(clr)                             //Clear signal active
+        if(!clr)                             //Clear signal active
             for(temp=0;temp<32;temp=temp+1)
                 REGS[temp]<=0;
         else                                //Clock signal active

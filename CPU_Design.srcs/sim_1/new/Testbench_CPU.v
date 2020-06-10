@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 05/26/2020 07:29:26 PM
+// Create Date: 06/08/2020 08:58:48 AM
 // Design Name: 
-// Module Name: DM
+// Module Name: Testbench_CPU
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,26 +20,24 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module DM(Addr, Din, Clk, We, Dout );
+module Testbench_CPU();
     
-    input [31:0]Addr,Din;
-    input Clk,We;
+    reg         CLK,EN,CLRN;
     
-    output [31:0]Dout;
-    
-    reg [31:0] RAM [1023:0];
-    
-    integer i;
-	initial begin
-        for ( i = 0 ; i <= 1023 ; i = i + 1) 
-            RAM [i] = i;
+    initial begin 
+        CLK=0;
+        CLRN=0;
+        EN=1;
+        #10
+        CLRN<=1;
     end
     
-    always @ (posedge Clk)
-    begin
-        if (We) RAM[Addr[11:2]] <= Din;
-	end
-	
-    assign Dout = RAM[Addr[11:2]];
+    always #5 CLK=~CLK;
+    
+    CPU_Design CPU(
+        .CLK(CLK),
+        .EN(EN),
+        .CLRN(CLRN)
+    );
     
 endmodule

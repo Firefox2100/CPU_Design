@@ -49,7 +49,7 @@ module MEMWB(
     
     always @(posedge Clk)
     begin
-        if(Clrn)
+        if(!Clrn)
             {WB_Wreg, WB_Reg2reg, WB_ALU_R, WB_DMO, WB_RT_RD_Addr}<=0;
         else if(En)
             {WB_Wreg, WB_Reg2reg, WB_ALU_R, WB_DMO, WB_RT_RD_Addr}<=

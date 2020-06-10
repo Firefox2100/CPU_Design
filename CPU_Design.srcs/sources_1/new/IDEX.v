@@ -55,7 +55,7 @@ module IDEX(
     output  reg [31:0]  EX_J_addr;
     output  reg [5:0]   EX_OP;
     output  reg [5:0]   EX_func;
-    output  reg [5:0]   EX_RT_RD_Addr;
+    output  reg [4:0]   EX_RT_RD_Addr;
     output  reg [1:0]   EX_Aluc;
     output  reg [1:0]   EX_FwdA;
     output  reg [1:0]   EX_FwdB;
@@ -68,7 +68,7 @@ module IDEX(
     wire                CL;
     
     assign Safe=EN&~stall;
-    assign CL=clrm&~condep;
+    assign CL=clrm&~condep&~stall;
     
     initial
     begin
@@ -77,9 +77,9 @@ module IDEX(
     
     always @(posedge clk)
     begin
-        if(CL)
+        if(!CL)
             {EX_RD1,EX_RD2,EX_Extended,EX_BA,EX_J_addr,EX_OP,EX_func,EX_RT_RD_Addr,EX_Aluc,EX_FwdA,EX_FwdB,EX_Aluqb,EX_Wreg,EX_Wmem,EX_Reg2reg}<=0;
-        else if(Safe)
+        else if(EN)
             {EX_RD1,EX_RD2,EX_Extended,EX_BA,EX_J_addr,EX_OP,EX_func,EX_RT_RD_Addr,EX_Aluc,EX_FwdA,EX_FwdB,EX_Aluqb,EX_Wreg,EX_Wmem,EX_Reg2reg}<=
             {ID_RD1,ID_RD2,ID_Extended,ID_BA,ID_J_addr,ID_OP,ID_func,ID_RT_RD_Addr,ID_Aluc,ID_FwdA,ID_FwdB,ID_Aluqb,ID_Wreg,ID_Wmem,ID_Reg2reg};
     end

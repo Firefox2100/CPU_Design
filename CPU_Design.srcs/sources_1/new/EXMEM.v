@@ -39,7 +39,7 @@ module EXMEM(
     
     output  reg [31:0]  MEM_ALU_R;
     output  reg [31:0]  MEM_RD2;
-    output  reg [31:0]  MEM_RT_RD_Addr;
+    output  reg [4:0]   MEM_RT_RD_Addr;
     output  reg         MEM_Wreg;
     output  reg         MEM_Reg2reg;
     output  reg         MEM_Wmem;
@@ -51,7 +51,7 @@ module EXMEM(
     
     always @(posedge Clk)
     begin
-        if(Clrn)
+        if(!Clrn)
             {MEM_ALU_R,MEM_RD2,MEM_RT_RD_Addr,MEM_Wreg,MEM_Reg2reg,MEM_Wmem}<=0;
         else if(En)
             {MEM_ALU_R,MEM_RD2,MEM_RT_RD_Addr,MEM_Wreg,MEM_Reg2reg,MEM_Wmem}<=

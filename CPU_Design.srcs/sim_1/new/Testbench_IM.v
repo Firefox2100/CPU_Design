@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 05/26/2020 07:29:26 PM
+// Create Date: 06/08/2020 09:06:21 AM
 // Design Name: 
-// Module Name: DM
+// Module Name: Testbench_IM
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,26 +20,29 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module DM(Addr, Din, Clk, We, Dout );
+module Testbench_IM();
     
-    input [31:0]Addr,Din;
-    input Clk,We;
+    reg     [31:0]  Addr;
+    reg             Clk;
+    wire    [31:0]  Inst;
     
-    output [31:0]Dout;
-    
-    reg [31:0] RAM [1023:0];
-    
-    integer i;
-	initial begin
-        for ( i = 0 ; i <= 1023 ; i = i + 1) 
-            RAM [i] = i;
+    initial
+    begin
+        Clk=0;
+        forever #10 Clk=~Clk;
     end
     
-    always @ (posedge Clk)
+    initial
     begin
-        if (We) RAM[Addr[11:2]] <= Din;
-	end
-	
-    assign Dout = RAM[Addr[11:2]];
+        #10 Addr=0;
+        forever #20 Addr=Addr+4;
+    end
+    
+    IM IM(
+        .Addr(Addr),
+        .Inst(Inst),
+        .Clk(Clk)
+    );
+    
     
 endmodule
